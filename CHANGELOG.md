@@ -6,6 +6,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **Edit the file under the cursor in your editor.** `E` opens the file you're reviewing in
+  `$VISUAL`/`$EDITOR` — at the line under the cursor in the diff, at the selected file in
+  the tree, or at a highlighted comment's anchor from the comments list. reviewr suspends
+  while the editor runs and refreshes the diff when you return, so your edits show up
+  immediately. Rebindable as `edit-file`.
+
 ## [0.34.0] — 2026-08-20
 
 ### Added
