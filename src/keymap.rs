@@ -188,7 +188,7 @@ const ACTIONS: [(Action, &str, &[Key]); 41] = [
     (Action::Select, "select", &[Key::plain('v')]),
     (Action::Comment, "comment", &[Key::plain('c')]),
     (Action::Edit, "edit", &[Key::plain('e')]),
-    (Action::EditFile, "edit-file", &[Key::plain('E'), Key::ctrl('e')]),
+    (Action::EditFile, "edit-file", &[Key::ctrl('e')]),
     (Action::Delete, "delete", &[Key::plain('d')]),
     (Action::NextComment, "next-comment", &[Key::plain('n')]),
     (Action::PrevComment, "prev-comment", &[Key::plain('N')]),
@@ -327,13 +327,14 @@ mod tests {
     fn defaults_bind_every_action_and_hint_is_first_key() {
         let keymap = Keymap::default();
         assert_eq!(keymap.action_for(Key::plain('c')), Some(Action::Comment));
-        // `e` stays the comment editor; `E` is the file editor, with `ctrl+e` as its
-        // chord so the search screen — where every printable types into the query —
-        // still reaches it (`specs/input.md`).
+        // `e` stays the comment editor; `ctrl+e` is the file editor — a chord, so it
+        // also reaches the search screen, where every printable types into the query
+        // (`specs/input.md`).
         assert_eq!(keymap.action_for(Key::plain('e')), Some(Action::Edit));
-        assert_eq!(keymap.action_for(Key::plain('E')), Some(Action::EditFile));
+        assert_eq!(keymap.action_for(Key::plain('E')), None);
         assert_eq!(keymap.action_for(Key::ctrl('e')), Some(Action::EditFile));
-        assert_eq!(keymap.hint(Action::EditFile), Key::plain('E'));
+        assert_eq!(keymap.hint(Action::EditFile), Key::ctrl('e'));
+        assert_eq!(keymap.hint(Action::EditFile).label(), "ctrl+e");
         assert_eq!(keymap.action_for(Key::plain('S')), Some(Action::Send));
         assert_eq!(keymap.action_for(Key::plain('m')), Some(Action::Preview));
         assert_eq!(keymap.action_for(Key::plain('p')), Some(Action::NavigatorPosition));

@@ -143,9 +143,8 @@ Printable keys edit the query. The rest:
 
 The footer shows these while the screen is open. With nothing to pick — warming, errored,
 or no matches — it shows the mode flip and `esc`. The `ctrl+e` row shows only while
-something is pickable, and its hint names the bound chord rather than the bare character,
-since every printable types into the query here. The chord outranks the shared
-caret-to-end control on this screen alone; `End` still moves the caret.
+something is pickable. The chord outranks the shared caret-to-end control on this screen
+alone; `End` still moves the caret.
 
 ## Opening a result
 

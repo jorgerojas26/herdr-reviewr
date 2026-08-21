@@ -1427,16 +1427,23 @@ fn edit_file_requests_the_open_diff_line_and_stays_inert_where_nothing_is_editab
     app.diff_cursor = 1; // a changed row of `a.rs`
 
     let keymap = Keymap::default();
-    press(&mut app, &keymap, KeyCode::Char('E'));
-    let target = app.editor_request.take().expect("`E` names the open file");
+    handle_key(
+        &mut app,
+        KeyEvent::new(KeyCode::Char('e'), KeyModifiers::CONTROL),
+        Rect::new(0, 0, 120, 40),
+        &keymap,
+    )
+    .unwrap();
+    let target = app.editor_request.take().expect("ctrl+e names the open file");
     assert_eq!(target.path, "a.rs", "the request carries the open file");
     assert!(target.line.is_some(), "the cursor's new-file line rides along");
 
-    // `e` keeps its comment meaning: no file request, and the mode is untouched when no
-    // comment sits under the cursor.
+    // The bare characters keep their own meanings: no file request from either.
     press(&mut app, &keymap, KeyCode::Char('e'));
     assert!(app.editor_request.is_none(), "`e` never requests a file");
     assert_eq!(app.mode, Mode::Normal);
+    press(&mut app, &keymap, KeyCode::Char('E'));
+    assert!(app.editor_request.is_none(), "`E` is unbound");
 
     // The read-only PR tab has no files to name.
     enter_tab(&mut app, herdr_reviewr::app::Tab::Pr);
