@@ -2426,7 +2426,23 @@ fn action_key_label(app: &App, action: FooterAction) -> (String, String) {
         A::Select => (hint(K::Select), "select"),
         A::ClearSelection => ("esc".into(), "clear"),
         A::EditComment => (hint(K::Edit), "edit"),
-        A::EditFile => (hint(K::EditFile), "edit file"),
+        A::EditFile => {
+            // The search screen's printables all type into the query, so its bar names
+            // the bound chord, not the bare character (`specs/search.md`).
+            if app.mode == Mode::Search {
+                let chord = app
+                    .keymap()
+                    .bindings()
+                    .iter()
+                    .find(|(action, _)| *action == K::EditFile)
+                    .and_then(|(_, keys)| keys.iter().find(|key| key.ctrl))
+                    .map(|key| key.label());
+                if let Some(chord) = chord {
+                    return (chord, "edit file".into());
+                }
+            }
+            (hint(K::EditFile), "edit file")
+        }
         A::DeleteComment => (hint(K::Delete), "delete"),
         A::JumpComment => (format!("{}/{}", hint(K::NextComment), hint(K::PrevComment)), "jump"),
         A::ExpandFold => (hint(K::Expand), "expand fold"),

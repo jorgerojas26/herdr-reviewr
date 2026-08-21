@@ -3885,6 +3885,7 @@ impl App {
                         (A::FlipSearchMode, Primary),
                         (A::PickResult, Do),
                         (A::OpenResult, Do),
+                        (A::EditFile, Do),
                         (A::CloseSearch, Do),
                     ]
                 } else {

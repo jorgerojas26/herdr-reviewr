@@ -48,7 +48,7 @@ The keymap is rebindable per action through `[keybindings]` in the plugin config
 | `comment`                                                | comment on the selection                    | `c`, type, `enter`                          | click or drag the gutter                       |
 | —                                                        | copy text (`text-selection.md`)             | —                                           | drag over text                                 |
 | `edit`                                                   | edit the comment under the cursor           | `e`                                         | —                                              |
-| `edit-file`                                              | open the file under the cursor in `$EDITOR` | `E`                                         | —                                              |
+| `edit-file`                                              | open the file under the cursor in `$EDITOR` | `E` / `ctrl+e`                              | —                                              |
 | `delete`                                                 | delete the comment under the cursor         | `d`                                         | —                                              |
 | `next-comment` / `prev-comment`                          | jump to next / previous comment             | `n` / `N`                                   | —                                              |
 | `comments`                                               | list and manage all comments                | `l`                                         | —                                              |
@@ -123,8 +123,10 @@ is one keypress away. The target follows the press:
 
 The comment editor, the find band, the agent picker, and the base picker are text fields and
 strictly modal: every printable is theirs, so `edit-file` never fires there. The search
-screen's pick opens with `enter`, and `E` works from the opened file. The `PR` tab has no
-files to name and stays inert.
+screen is a text field too, so its default carries a chord alongside `E`: `ctrl+e` opens the
+picked result's file straight from the screen, outranking the shared caret-to-end control
+there alone (`search.md`); `End` still moves the caret, and the screen's footer names the
+chord, not the character. The `PR` tab has no files to name and stays inert.
 
 The pane suspends — alternate screen, raw mode, mouse capture, bracketed paste, and the
 keyboard protocol all release — so the editor owns the terminal cleanly, then rebuilds the

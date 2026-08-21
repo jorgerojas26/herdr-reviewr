@@ -1581,6 +1581,10 @@ pub fn handle_key(app: &mut App, key: KeyEvent, area: Rect, keymap: &Keymap) -> 
         match key.code {
             Esc => app.close_search(),
             Enter => app.search_open_pick()?,
+            // `edit-file` on the picked result. The chord is the only way in — every
+            // printable, `E` included, types into the query (`specs/search.md`) — so
+            // here it outranks the shared caret-to-end control, which `End` still does.
+            Char('e') if ctrl => app.request_edit_file(),
             Tab => app.search_flip(),
             PageDown => app.scroll_search_preview(PAGE),
             PageUp => app.scroll_search_preview(-PAGE),
